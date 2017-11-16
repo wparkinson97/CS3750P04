@@ -169,7 +169,24 @@ namespace CS3750P04.Models
             return timeEntryHistories;
         }
 
-        
+        public void addUser(User user)
+        {
+            using(MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "INSERT INTO User(ScreenName,FirstName,LastName,IsActive,UserHash) VALUES(@ScreenName,@FirstName,@LastName,@IsActive,@UserHash);";
+                using (MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ScreenName", user.ScreenName);
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@IsActive", user.isActive);
+                    cmd.Parameters.AddWithValue("@UserHash", user.UserHash);
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+        }
 
         
 
