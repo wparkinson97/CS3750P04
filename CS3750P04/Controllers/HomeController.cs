@@ -18,6 +18,14 @@ namespace CS3750P04.Controllers
             db.GetGroups();
             db.GetProjects();
             db.GetUserProjects();
+            //db.addUser(new Models.User()
+            //{
+            //    ScreenName = "Added from db",
+            //    FirstName = "Something",
+            //    LastName = "Special",
+            //    isActive = true,
+            //    UserHash = "Not implemeneted yet"
+            //});
             return "hello from code?";
             //return View();
         }
