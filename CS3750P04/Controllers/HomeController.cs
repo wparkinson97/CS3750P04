@@ -10,9 +10,16 @@ namespace CS3750P04.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public String Index()
         {
-            return View();
+            //TimeTrackerEntityContext db = new TimeTrackerEntityContext("server=localhost;database=CS3750P04;user=student;password=picklerick");
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+            db.GetUsers();
+            db.GetGroups();
+            db.GetProjects();
+            db.GetUserProjects();
+            return "hello from code?";
+            //return View();
         }
 
         public IActionResult About()
