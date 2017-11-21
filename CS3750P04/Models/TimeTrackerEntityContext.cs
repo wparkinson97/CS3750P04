@@ -187,6 +187,85 @@ namespace CS3750P04.Models
 
             }
         }
+        public void addGroup(Group group)
+        {
+            using(MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "INSERT INTO Group(GroupName, ProjectId) VALUES(@GroupName, @ProjectId)";
+                using(MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@GroupName", group.GroupName);
+                    cmd.Parameters.AddWithValue("ProjectId", group.ProjectId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        /// <summary>
+        /// add a new project to the db
+        /// </summary>
+        /// <param name="project"></param>
+        public void addProject(Project project)
+        {
+
+        }
+        /// <summary>
+        /// add a user project to db
+        /// </summary>
+        /// <param name="userProject"></param>
+        public void  addUserProject(UserProject userProject)
+        {
+
+        }
+        /// <summary>
+        /// add new time entry to db
+        /// </summary>
+        /// <param name="timeEntry"></param>
+        public void addTimeEntry(TimeEntry timeEntry)
+        {
+
+        }
+        /// <summary>
+        /// update db user info
+        /// </summary>
+        /// <param name="user">info for user to update</param>
+        public void updateUser(User user)
+        {
+
+        }
+        /// <summary>
+        /// update existing group in db
+        /// </summary>
+        /// <param name="group">group to make db record match</param>
+        public void updateGroup(Group group)
+        {
+
+        }
+        /// <summary>
+        /// update project in db to match passed in db
+        /// </summary>
+        /// <param name="project">project to update with new attributes</param>
+        public void updateProject(Project project)
+        {
+
+        }
+        /// <summary>
+        /// update user project in db
+        /// </summary>
+        /// <param name="userProject">userProject to update with updated fields</param>
+        public void updateUserProject(UserProject userProject)
+        {
+
+        }
+        /// <summary>
+        /// update time entry in db and add timeEntry history
+        /// </summary>
+        /// <param name="timeEntry">time entry to update with updated attriubtes</param>
+        public void updateTimeEntry(TimeEntry timeEntry)
+        {
+
+        }
+
 
         
 
