@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CS3750P04.Models;
 
 namespace CS3750P04
 {
@@ -22,6 +23,7 @@ namespace CS3750P04
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.Add(new ServiceDescriptor(typeof(TimeTrackerEntityContext), new TimeTrackerEntityContext("server=localhost;database=CS3750P04;user=root;password=H0wrut0d4y")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

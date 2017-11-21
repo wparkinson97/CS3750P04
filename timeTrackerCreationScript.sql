@@ -1,3 +1,5 @@
+CREATE DATABASE CS3750P04
+
 USE CS3750P04;
 
 
@@ -6,6 +8,8 @@ CREATE TABLE Project(
 	ProjectName		VARCHAR(25)	NOT NULL,
 	Active			BIT		NOT NULL
 );
+
+INSERT INTO Project(ProjectName, Active) VALUES ('Test 1', 1);
 
 
 CREATE TABLE User(
@@ -25,6 +29,8 @@ CREATE TABLE `Group`(
 	ProjectId		INT		NOT NULL
 );
 
+INSERT INTO `Group`(GroupName, ProjectId) VALUES('Group 1', 1);
+
 
 CREATE TABLE UserProject(
 	UserProjectId		INT		NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
@@ -32,6 +38,11 @@ CREATE TABLE UserProject(
 	ProjectId		INT		NOT NULL,
 	GroupId			INT		NOT NULL
 );
+
+SELECT * FROM User;
+SELECT * FROM `Group`;
+
+INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,2);
 
 
 CREATE TABLE TimeEntry(
@@ -42,6 +53,7 @@ CREATE TABLE TimeEntry(
 	Deleted			BIT		NOT NULL,
 	EntryComment		VARCHAR(255)	NOT NULL
 );
+
 
 
 CREATE TABLE TimeEntryHistory(
@@ -91,3 +103,10 @@ ALTER TABLE TimeEntryHistory
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
 ;
+
+INSERT INTO User(ScreenName,FirstName,LastName,IsActive,UserHash) VALUES('William','William','Parkinson',1,'abc');
+
+SELECT
+	*
+FROM
+	User

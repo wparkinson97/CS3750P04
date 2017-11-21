@@ -1,0 +1,11 @@
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\bin\Debug\netcoreapp2.0\CS3750P04.deps.json
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\bin\Debug\netcoreapp2.0\CS3750P04.runtimeconfig.json
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\bin\Debug\netcoreapp2.0\CS3750P04.runtimeconfig.dev.json
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\bin\Debug\netcoreapp2.0\CS3750P04.dll
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\obj\Debug\netcoreapp2.0\CS3750P04.csprojResolveAssemblyReference.cache
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\obj\Debug\netcoreapp2.0\CS3750P04.csproj.CoreCompileInputs.cache
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\obj\Debug\netcoreapp2.0\CS3750P04.AssemblyInfoInputs.cache
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\obj\Debug\netcoreapp2.0\CS3750P04.AssemblyInfo.cs
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\bin\Debug\netcoreapp2.0\CS3750P04.pdb
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\obj\Debug\netcoreapp2.0\CS3750P04.dll
+C:\Users\William\Documents\CS3750\CS3750P04\CS3750P04\obj\Debug\netcoreapp2.0\CS3750P04.pdb
