@@ -13,10 +13,12 @@ namespace CS3750P04.Models
 
         public DateTime TimeStart { get; set; }
 
-        public DateTime TimeStop { get; set; }
+        public DateTime? TimeStop { get; set; }
 
         public bool Deleted { get; set; }
 
         public string EntryComment { get; set; }
+
+        public DateTime CreateDate { get; set; }
     }
 }
