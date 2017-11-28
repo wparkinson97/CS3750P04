@@ -23,7 +23,7 @@ namespace CS3750P04
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.Add(new ServiceDescriptor(typeof(TimeTrackerEntityContext), new TimeTrackerEntityContext("server=localhost;database=CS3750P04;user=root;password=picklerick")));
+            services.Add(new ServiceDescriptor(typeof(TimeTrackerEntityContext), new TimeTrackerEntityContext("server=137.190.19.103;database=CS3750P04;user=root;password=picklerick")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
