@@ -11,7 +11,7 @@ namespace CS3750P04.Models
 
         public int UserId { get; set; }
 
-        public int ProjectId { get; set; }
+       // public int ProjectId { get; set; }
 
         public int GroupId { get; set; }
     }

@@ -9,7 +9,7 @@ CREATE TABLE Project(
 	Active			BIT		NOT NULL
 );
 
-INSERT INTO Project(ProjectName, Active) VALUES ('Test 1', 1);
+--INSERT INTO Project(ProjectName, Active) VALUES ('Test 1', 1);
 
 
 CREATE TABLE User(
@@ -29,20 +29,19 @@ CREATE TABLE `Group`(
 	ProjectId		INT		NOT NULL
 );
 
-INSERT INTO `Group`(GroupName, ProjectId) VALUES('Group 1', 1);
+--INSERT INTO `Group`(GroupName, ProjectId) VALUES('Group 1', 1);
 
 
 CREATE TABLE UserProject(
 	UserProjectId		INT		NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
 	UserId			INT		NOT NULL,
-	ProjectId		INT		NOT NULL,
 	GroupId			INT		NOT NULL
 );
 
 SELECT * FROM User;
 SELECT * FROM `Group`;
 
-INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,2);
+--INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,2);
 
 
 CREATE TABLE TimeEntry(
@@ -51,7 +50,8 @@ CREATE TABLE TimeEntry(
 	TimeStart		DATETIME	NOT NULL,
 	TimeStop		DATETIME		,
 	Deleted			BIT		NOT NULL,
-	EntryComment		VARCHAR(255)	NOT NULL
+	EntryComment		VARCHAR(255)	NOT NULL,
+	CreateDate		DATETIME	NOT NULL
 );
 
 
@@ -61,7 +61,8 @@ CREATE TABLE TimeEntryHistory(
 	TimeEntryId		BIGINT		NOT NULL,
 	ChangedField		VARCHAR(25)	NOT NULL,
 	OldValue		VARCHAR(255)		,
-	NewValue		VARCHAR(255)
+	NewValue		VARCHAR(255),
+	CreateDate		DATETIME		NOT NULL
 );
 
 

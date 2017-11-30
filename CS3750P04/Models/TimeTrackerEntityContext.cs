@@ -107,8 +107,7 @@ namespace CS3750P04.Models
                         {
                             UserProjectId = reader.GetInt32("UserProjectId"),
                             UserId = reader.GetInt32("UserId"),
-                            GroupId = reader.GetInt32("GroupId"),
-                            ProjectId = reader.GetInt32("ProjectId")
+                            GroupId = reader.GetInt32("GroupId")
                         });
                     }
                 }
@@ -134,7 +133,8 @@ namespace CS3750P04.Models
                             TimeStop = reader.GetDateTime("TimeStop"),
                             Deleted = reader.GetBoolean("Deleted"),
                             EntryComment = reader.GetString("EntryComment"),
-                            UserId = reader.GetInt32("UserId")
+                            UserId = reader.GetInt32("UserId"),
+                            CreateDate = reader.GetDateTime("CreateDate")
                         });
                     }
                 }
@@ -161,6 +161,7 @@ namespace CS3750P04.Models
                             ChangedField = reader.GetString("ChangedField"),
                             NewValue = reader.GetString("NewValue"),
                             OldValue = reader.GetString("OldValue"),
+                            CreateDate = reader.GetDateTime("CreateDate")
                         });
                     }
                 }
@@ -192,11 +193,11 @@ namespace CS3750P04.Models
             using(MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string sqlCmd = "INSERT INTO Group(GroupName, ProjectId) VALUES(@GroupName, @ProjectId)";
+                string sqlCmd = "INSERT INTO `Group`(GroupName, ProjectId) VALUES(@GroupName, @ProjectId);";
                 using(MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
                 {
                     cmd.Parameters.AddWithValue("@GroupName", group.GroupName);
-                    cmd.Parameters.AddWithValue("ProjectId", group.ProjectId);
+                    cmd.Parameters.AddWithValue("@ProjectId", group.ProjectId);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -207,7 +208,17 @@ namespace CS3750P04.Models
         /// <param name="project"></param>
         public void addProject(Project project)
         {
-
+            using(MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "INSERT INTO Project(ProjectName,Active) VALUES (@ProjectName,@Active);";
+                using(MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ProjectName", project.ProjectName);
+                    cmd.Parameters.AddWithValue("@Active", project.Active);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         /// <summary>
         /// add a user project to db
@@ -215,7 +226,17 @@ namespace CS3750P04.Models
         /// <param name="userProject"></param>
         public void  addUserProject(UserProject userProject)
         {
-
+            using(MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "INSERT INTO UserProject(UserId, GroupId) VALUES (@UserId, @GroupId);";
+                using (MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userProject.UserId);
+                    cmd.Parameters.AddWithValue("@GroupId", userProject.GroupId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         /// <summary>
         /// add new time entry to db
@@ -223,7 +244,21 @@ namespace CS3750P04.Models
         /// <param name="timeEntry"></param>
         public void addTimeEntry(TimeEntry timeEntry)
         {
-
+            using(MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sql = "INSERT INTO TimeEntry(UserId,TimeStart,TimeStop,Deleted,EntryComment,CreateDate) VALUES(@UserId,@TimeStart,@TimeStop,@Deleted,@EntryComment,@CreateDate);";
+                using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", timeEntry.UserId);
+                    cmd.Parameters.AddWithValue("@TimeStart", timeEntry.TimeStart);
+                    cmd.Parameters.AddWithValue("@TimeStop", timeEntry.TimeStop);
+                    cmd.Parameters.AddWithValue("@Deleted", timeEntry.Deleted);
+                    cmd.Parameters.AddWithValue("@EntryComment", timeEntry.EntryComment);
+                    cmd.Parameters.AddWithValue("@CreateDate", timeEntry.CreateDate);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         /// <summary>
         /// update db user info
@@ -231,7 +266,22 @@ namespace CS3750P04.Models
         /// <param name="user">info for user to update</param>
         public void updateUser(User user)
         {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "UPDATE User SET ScreenName = @ScreenName, FirstName = @FirstName, LastName = @LastName, IsActive = @IsActive,UserHash = @UserHash WHERE UserId = @UserId;";
+                using (MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ScreenName", user.ScreenName);
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@IsActive", user.isActive);
+                    cmd.Parameters.AddWithValue("@UserHash", user.UserHash);
+                    cmd.Parameters.AddWithValue("@UserId", user.UserId);
+                    cmd.ExecuteNonQuery();
+                }
 
+            }
         }
         /// <summary>
         /// update existing group in db
@@ -239,7 +289,18 @@ namespace CS3750P04.Models
         /// <param name="group">group to make db record match</param>
         public void updateGroup(Group group)
         {
-
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "UPDATE `Group` SET GroupName = @GroupName,ProjectId = @ProjectId WHERE GroupId = @GroupId;";
+                using (MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@GroupName", group.GroupName);
+                    cmd.Parameters.AddWithValue("@ProjectId", group.ProjectId);
+                    cmd.Parameters.AddWithValue("@GroupId", group.GroupId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         /// <summary>
         /// update project in db to match passed in db
@@ -247,7 +308,18 @@ namespace CS3750P04.Models
         /// <param name="project">project to update with new attributes</param>
         public void updateProject(Project project)
         {
-
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "UPDATE Project SET ProjectName = @ProjectName, Active = @Active WHERE ProjectId = @ProjectId;";
+                using (MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ProjectName", project.ProjectName);
+                    cmd.Parameters.AddWithValue("@Active", project.Active);
+                    cmd.Parameters.AddWithValue("@ProjectId", project.ProjectId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         /// <summary>
         /// update user project in db
@@ -255,7 +327,18 @@ namespace CS3750P04.Models
         /// <param name="userProject">userProject to update with updated fields</param>
         public void updateUserProject(UserProject userProject)
         {
-
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sqlCmd = "UPDATE UserProject SET UserId = @UserId, GroupId = @GroupId WHERE UserProjectId = @UserProjectId;";
+                using (MySqlCommand cmd = new MySqlCommand(sqlCmd, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userProject.UserId);
+                    cmd.Parameters.AddWithValue("@GroupId", userProject.GroupId);
+                    cmd.Parameters.AddWithValue("@UserProjectId", userProject.UserProjectId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         /// <summary>
         /// update time entry in db and add timeEntry history
@@ -263,7 +346,22 @@ namespace CS3750P04.Models
         /// <param name="timeEntry">time entry to update with updated attriubtes</param>
         public void updateTimeEntry(TimeEntry timeEntry)
         {
-
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string sql = "UPDATE TimeEntry SET UserId = @UserId, TimeStart = @TimeStart, TimeStop = @TimeStop,Deleted = @Deleted,EntryComment = @EntryComment, CreateDate = @CreateDate WHERE TimeEntryId = @TimeEntryId;";
+                using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", timeEntry.UserId);
+                    cmd.Parameters.AddWithValue("@TimeStart", timeEntry.TimeStart);
+                    cmd.Parameters.AddWithValue("@TimeStop", timeEntry.TimeStop);
+                    cmd.Parameters.AddWithValue("@Deleted", timeEntry.Deleted);
+                    cmd.Parameters.AddWithValue("@EntryComment", timeEntry.EntryComment);
+                    cmd.Parameters.AddWithValue("@CreateDate", timeEntry.CreateDate);
+                    cmd.Parameters.AddWithValue("TimeEntryId", timeEntry.TimeEntryId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
 

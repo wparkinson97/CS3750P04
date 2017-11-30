@@ -16,5 +16,7 @@ namespace CS3750P04.Models
         public string OldValue { get; set; }
 
         public string NewValue { get; set; }
+
+        public DateTime CreateDate { get; set; }
     }
 }
