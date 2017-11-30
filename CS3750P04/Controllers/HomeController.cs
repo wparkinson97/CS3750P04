@@ -12,7 +12,23 @@ namespace CS3750P04.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            //TimeTrackerEntityContext db = new TimeTrackerEntityContext("server=localhost;database=CS3750P04;user=student;password=picklerick");
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+            ViewData["Message"] = "This is a terrible test.";
+            var model = db.GetUsers();
+            //db.GetGroups();
+            //db.GetProjects();
+            //db.GetUserProjects();
+            ////db.addUser(new Models.User()
+            ////{
+            ////    ScreenName = "Added from db",
+            ////    FirstName = "Something",
+            ////    LastName = "Special",
+            ////    isActive = true,
+            ////    UserHash = "Not implemeneted yet"
+            ////});
+            //return "hello from code?";
+            return View(model.FirstOrDefault());
         }
 
         public IActionResult About()
