@@ -5,3 +5,153 @@
 <h3>@ViewData["Message"]</h3>
 
 <p>Use this area to provide additional information.</p>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
+
+<div id="piechart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+<div id="treemap" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+<div>
+    <h2>UserName Hours:</h2>
+    <h2>GroupName Average:</h2>
+    <h2>Class Average:</h2>
+</div>
+
+
+<script>
+    // Build the chart
+    Highcharts.chart('piechart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Group {}s progress'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Groups',
+            colorByPoint: true,
+            data: [{
+                name: 'Group 1',
+                y: 56.33
+            }, {
+                name: 'Group 2',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Group 3',
+                y: 10.38
+            }, {
+                name: 'Group 4',
+                y: 4.77
+            }, {
+                name: 'Group 5',
+                y: 0.91
+            }, {
+                name: 'Group 6',
+                y: 0.2
+            }]
+        }]
+    });
+</script>
+<script>
+    Highcharts.chart('treemap', {
+        series: [{
+            type: "treemap",
+            layoutAlgorithm: 'stripes',
+            alternateStartingDirection: true,
+            levels: [{
+                level: 1,
+                layoutAlgorithm: 'sliceAndDice',
+                dataLabels: {
+                    enabled: true,
+                    align: 'left',
+                    verticalAlign: 'top',
+                    style: {
+                        fontSize: '15px',
+                        fontWeight: 'bold'
+                    }
+                }
+            }],
+            data: [{
+                id: 'A',
+                name: 'Group 1',
+                color: "#EC2500"
+            }, {
+                id: 'B',
+                name: 'Group 2',
+                color: "#ECE100"
+            }, {
+                id: 'O',
+                name: 'Group 3',
+                color: '#EC9800'
+            }, {
+                id: 'Kiwi',
+                name: 'Group 4',
+                color: '#9EDE00'
+            }, {
+                name: 'Morty',
+                parent: 'A',
+                value: 5
+            }, {
+                name: 'Rick',
+                parent: 'A',
+                value: 3
+            }, {
+                name: 'Jerry',
+                parent: 'A',
+                value: 4
+            }, {
+                name: 'Anne',
+                parent: 'B',
+                value: 4
+            }, {
+                name: 'Rick',
+                parent: 'B',
+                value: 10
+            }, {
+                name: 'Peter',
+                parent: 'B',
+                value: 1
+            }, {
+                name: 'Anne',
+                parent: 'O',
+                value: 1
+            }, {
+                name: 'Rick',
+                parent: 'O',
+                value: 3
+            }, {
+                name: 'Peter',
+                parent: 'O',
+                value: 3
+            }, {
+                name: 'Susanne',
+                parent: 'Kiwi',
+                value: 2
+            }]
+        }],
+        title: {
+            text: 'Class progress'
+        }
+    });
+</script>
