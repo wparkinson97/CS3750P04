@@ -10,6 +10,6 @@ namespace CS3750P04.ViewModels
     {
         public User selectedUser { get; set; }
         public Group selectedGroup { get; set; }
-
+        public IEnumerable<TimeEntry> timeEntries { get; set; }
     }
 }

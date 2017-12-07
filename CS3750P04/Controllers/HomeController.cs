@@ -39,16 +39,13 @@ namespace CS3750P04.Controllers
             }
             #endregion
 
-            #region Get the time entries
-            //List<TimeEntry> = db.GetTimeEntries().FindAll(te => te.UserId == userID && te.)
-            #endregion
-
             // Populate the viewModel and return a view using it
             UserViewModel viewModel = new UserViewModel()
             {
                 selectedUser = db.GetUsers().Find(u => u.UserId == userID),
-                selectedGroup = db.GetGroups().Find(g => g.GroupId == groupID)
-            };
+                selectedGroup = db.GetGroups().Find(g => g.GroupId == groupID),
+                timeEntries = db.GetTimeEntries().FindAll(te => te.UserId == userID && te.GroupId == groupID)
+        };
             return View(viewModel);
         }
 
