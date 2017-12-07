@@ -9,12 +9,13 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+<div id="piechart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/treemap.js"></script>
 
-
 <div id="treemap"></div>
-<div id="piechart"></div>
+
 <div>
     <h2>UserName Hours:</h2>
     <h2>GroupName Average:</h2>
@@ -23,57 +24,58 @@
 
 
 <script>
-// Build the chart
-Highcharts.chart('piechart', {
-    chart: {
-        plotBackgroundColor: null
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-    },
-    title: {
-        text: 'Browser market shares January, 2015 to May, 2015'
-    },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
-    plotOptions: {
-        pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: false
-            },
-            showInLegend: true
-        }
-    },
-    series: [{
-        name: 'Brands',
-        colorByPoint: true,
-        data: [{
-            name: 'Microsoft Internet Explorer',
-            y: 56.33
-        }, {
-            name: 'Chrome',
-            y: 24.03,
-            sliced: true,
-            selected: true
-        }, {
-            name: 'Firefox',
-            y: 10.38
-        }, {
-            name: 'Safari',
-            y: 4.77
-        }, {
-            name: 'Opera',
-            y: 0.91
-        }, {
-            name: 'Proprietary or Undetectable',
-            y: 3.2
+    // Build the chart
+    Highcharts.chart('piechart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Group {}s progress'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Groups',
+            colorByPoint: true,
+            data: [{
+                name: 'Group 1',
+                y: 56.33
+            }, {
+                name: 'Group 2',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Group 3',
+                y: 10.38
+            }, {
+                name: 'Group 4',
+                y: 4.77
+            }, {
+                name: 'Group 5',
+                y: 0.91
+            }, {
+                name: 'Group 6',
+                y: 0.2
+            }]
         }]
-    }]
     });
-
+</script>
+<script>
     Highcharts.chart('treemap', {
         series: [{
             type: "treemap",
@@ -94,18 +96,22 @@ Highcharts.chart('piechart', {
             }],
             data: [{
                 id: 'A',
-                name: 'Apples',
+                name: 'Group 1',
                 color: "#EC2500"
             }, {
                 id: 'B',
-                name: 'Bananas',
+                name: 'Group 2',
                 color: "#ECE100"
             }, {
                 id: 'O',
-                name: 'Oranges',
+                name: 'Group 3',
                 color: '#EC9800'
             }, {
-                name: 'Anne',
+                id: 'Kiwi',
+                name: 'Group 4',
+                color: '#9EDE00'
+            }, {
+                name: 'Morty',
                 parent: 'A',
                 value: 5
             }, {
@@ -113,7 +119,7 @@ Highcharts.chart('piechart', {
                 parent: 'A',
                 value: 3
             }, {
-                name: 'Peter',
+                name: 'Jerry',
                 parent: 'A',
                 value: 4
             }, {
@@ -143,12 +149,11 @@ Highcharts.chart('piechart', {
             }, {
                 name: 'Susanne',
                 parent: 'Kiwi',
-                value: 2,
-                color: '#9EDE00'
+                value: 2
             }]
         }],
         title: {
-            text: 'Fruit consumption'
+            text: 'Class progress'
         }
     });
 </script>
