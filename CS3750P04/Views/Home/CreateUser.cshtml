@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "CreateUser";
+}
+
+<h2>CreateUser</h2>
+
+@using (Html.BeginForm())
+{
+    <label>User Name:</label><input type="text" name="username" /><br />
+    <label>First Name:</label><input type="text" name="firstName" /><br />
+    <label>Last Name:</label><input type="text" name="lastName" /><br />
+    <label>Group Id:</label><input type ="text" name="groupId"/><br />
+    <label>Password:</label><input type ="password" name="password"/><br />
+    <input type ="submit"/>
+
+}
