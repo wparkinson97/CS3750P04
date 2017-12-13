@@ -1,4 +1,4 @@
-CREATE DATABASE CS3750P04
+#CREATE DATABASE CS3750P04
 
 USE CS3750P04;
 
@@ -9,7 +9,7 @@ CREATE TABLE Project(
 	Active			BIT		NOT NULL
 );
 
---INSERT INTO Project(ProjectName, Active) VALUES ('Test 1', 1);
+#INSERT INTO Project(ProjectName, Active) VALUES ('Test 1', 1);
 
 
 CREATE TABLE User(
@@ -29,7 +29,7 @@ CREATE TABLE `Group`(
 	ProjectId		INT		NOT NULL
 );
 
---INSERT INTO `Group`(GroupName, ProjectId) VALUES('Group 1', 1);
+#INSERT INTO `Group`(GroupName, ProjectId) VALUES('Group 1', 1);
 
 
 CREATE TABLE UserProject(
@@ -41,7 +41,7 @@ CREATE TABLE UserProject(
 SELECT * FROM User;
 SELECT * FROM `Group`;
 
---INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,2);
+#INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,2);
 
 
 CREATE TABLE TimeEntry(
@@ -76,10 +76,6 @@ ALTER TABLE `Group`
 
 
 ALTER TABLE UserProject
-	ADD CONSTRAINT FK_ProjectUserProjectId
-	FOREIGN KEY (ProjectId) REFERENCES Project (ProjectId)
-	ON UPDATE CASCADE
-	ON DELETE CASCADE,
 	ADD CONSTRAINT FK_ProjectUserUserId
 	FOREIGN KEY (UserId) REFERENCES `User` (UserId)
 	ON UPDATE CASCADE
