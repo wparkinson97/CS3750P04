@@ -104,7 +104,34 @@ namespace CS3750P04.Controllers
             
             return View(entrys.FirstOrDefault());
         }
-
+        [HttpPost]
+        public IActionResult endTrack(DateTime timeStop,int timeEntryId)
+        {
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+            TimeEntry existingEntry =  db.GetTimeEntries().Find(te => te.TimeEntryId == timeEntryId);
+            existingEntry.TimeStop = timeStop;
+            db.updateTimeEntry(existingEntry);
+            return RedirectToAction("TrackTime");
+        }
+        [HttpPost]
+        public IActionResult startTrack(DateTime startTime)
+        {
+            int? id = (int?)(HttpContext.Session.GetInt32("userId")) ?? -1;
+            if (id == -1)
+                return RedirectToAction("Login");
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+            db.addTimeEntry(new TimeEntry()
+            {
+                TimeStart = startTime,
+                CreateDate = DateTime.UtcNow,
+                Deleted = false,
+                EntryComment = "",
+                GroupId = db.GetUserProjects().Where(u => u.UserId == id).FirstOrDefault().GroupId,
+                TimeStop = null,
+                UserId = (int)id
+            });
+            return RedirectToAction("TrackTime") ;
+        }
         public IActionResult User(int projectID, int userID)
         {
             ViewData["Message"] = "The main screen with user info and metrics.";
