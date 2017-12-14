@@ -30,11 +30,13 @@
     {
         @foreach (var te in timeEntries)
         {
+            var end = (DateTime?)(te.TimeStop);
+            var dur = (TimeSpan?)(te.TimeStop - te.TimeStart);
             <tr>
                 <td>@te.TimeStart.ToString("MM/dd/yy")</td>
                 <td>@te.TimeStart.ToString("HH:mm")</td>
-                <td>@(((DateTime)(te.TimeStop)).ToString("HH:mm"))</td>
-                <td>@(((TimeSpan)(te.TimeStop - te.TimeStart)).ToString(@"hh\:mm"))</td>
+                <td>@(end != null ? end.Value.ToString("HH:mm") : "")</td>
+                <td>@(dur != null ? dur.Value.ToString(@"hh\:mm") : "")</td>
                 <td>@te.EntryComment</td>
             </tr>
         }
