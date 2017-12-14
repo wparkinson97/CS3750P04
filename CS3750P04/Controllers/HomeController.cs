@@ -14,18 +14,42 @@ namespace CS3750P04.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int? projectID, int? userID)
         {
             //TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
             int? id = (int?)(HttpContext.Session.GetInt32("userId")) ?? -1;
             if (id == -1)
                 return RedirectToAction("Login");
 
-            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
-            ViewData["Message"] = "This is a terrible test.";
-            var model = db.GetUsers();
+            projectID = projectID ?? 1;
+            userID = userID ?? id;
 
-            return View(model.FirstOrDefault());
+            ViewData["Message"] = "The main screen with user info and metrics.";
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+
+            #region Get the Group ID, given the userID and projectID
+            List<int> allGroupsForProject = db.GetGroups().FindAll(g => g.ProjectId == projectID).ConvertAll(g => g.GroupId);
+            List<int> allGroupsForUser = db.GetUserProjects().FindAll(u => u.UserId == userID).ConvertAll(g => g.GroupId);
+            int groupID = 0;
+            foreach (int g in allGroupsForUser)
+            {
+                foreach (int g2 in allGroupsForProject)
+                {
+                    if (g == g2)
+                        groupID = g;
+                }
+            }
+            #endregion
+
+            // Populate the viewModel and return a view using it
+            UserViewModel viewModel = new UserViewModel()
+            {
+                selectedUser = db.GetUsers().Find(u => u.UserId == userID),
+                selectedGroup = db.GetGroups().Find(g => g.GroupId == groupID),
+                allGroups = db.GetGroups(),
+                timeEntries = db.GetTimeEntries().FindAll(te => te.UserId == userID && te.GroupId == groupID)
+            };
+            return View(viewModel);
         }
         [HttpGet]
         public IActionResult Login()
