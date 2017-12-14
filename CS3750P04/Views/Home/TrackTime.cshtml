@@ -7,14 +7,30 @@
 
 <h2>TrackTime</h2>
 
-@if(Model == null)
-{
-    <h3>No existing time card</h3>
 
+
+
+
+
+@if (Model == null)
+{
+    <form action="startTrack" method="post">
+    
+        <h3>No existing time card</h3>
+
+        <input type ="hidden" name="timeStart" />
+        <input type="submit" value="Start Tracking" />
+        
+    </form>
 }
 else
 {
-    <h3>existing time card</h3>
 
+        <form action="endTrack" method="post">
+            <h3>existing time card</h3>
+            <input type="hidden" value="@Model.TimeEntryId" name="timeEntryId" />
+            <input type="hidden" name="timeStop" />
+            <input type="submit" value="End Tracking" />
+        </form>
+    
 }
-
