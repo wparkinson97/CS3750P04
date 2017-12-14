@@ -134,6 +134,7 @@ namespace CS3750P04.Models
                             Deleted = reader.GetBoolean("Deleted"),
                             EntryComment = reader.GetString("EntryComment"),
                             UserId = reader.GetInt32("UserId"),
+                            GroupId = reader.GetInt32("GroupId"),
                             CreateDate = reader.GetDateTime("CreateDate")
                         });
                     }
@@ -247,10 +248,11 @@ namespace CS3750P04.Models
             using(MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string sql = "INSERT INTO TimeEntry(UserId,TimeStart,TimeStop,Deleted,EntryComment,CreateDate) VALUES(@UserId,@TimeStart,@TimeStop,@Deleted,@EntryComment,@CreateDate);";
+                string sql = "INSERT INTO TimeEntry(UserId,TimeStart,TimeStop,Deleted,EntryComment,CreateDate,GroupId) VALUES(@UserId,@TimeStart,@TimeStop,@Deleted,@EntryComment,@CreateDate,@GroupId);";
                 using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@UserId", timeEntry.UserId);
+                    cmd.Parameters.AddWithValue("@GroupId", timeEntry.GroupId);
                     cmd.Parameters.AddWithValue("@TimeStart", timeEntry.TimeStart);
                     cmd.Parameters.AddWithValue("@TimeStop", timeEntry.TimeStop);
                     cmd.Parameters.AddWithValue("@Deleted", timeEntry.Deleted);

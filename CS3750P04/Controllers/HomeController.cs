@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using CS3750P04.Models;
-
-using System;
+using CS3750P04.ViewModels;
 using System.Data;
 using System.Web;
 
@@ -21,7 +20,12 @@ namespace CS3750P04.Controllers
             int? id = (int?)(HttpContext.Session.GetInt32("userId")) ?? -1;
             if (id == -1)
                 return RedirectToAction("Login");
-            return View();
+
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+            ViewData["Message"] = "This is a terrible test.";
+            var model = db.GetUsers();
+
+            return View(model.FirstOrDefault());
         }
         [HttpGet]
         public IActionResult Login()
@@ -44,7 +48,7 @@ namespace CS3750P04.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateUser(string username, string password,string firstName, string lastName, int groupId)
+        public IActionResult CreateUser(string username, string password, string firstName, string lastName, int groupId)
         {
             TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
             db.addUser(new Models.User()
@@ -63,6 +67,36 @@ namespace CS3750P04.Controllers
             HttpContext.Session.SetInt32("userId", db.GetUsers().Find(user => user.ScreenName == username).UserId);
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult User(int projectID, int userID)
+        {
+            ViewData["Message"] = "The main screen with user info and metrics.";
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+
+            #region Get the Group ID, given the userID and projectID
+            List<int> allGroupsForProject = db.GetGroups().FindAll(g => g.ProjectId == projectID).ConvertAll(g => g.GroupId);
+            List<int> allGroupsForUser = db.GetUserProjects().FindAll(u => u.UserId == userID).ConvertAll(g => g.GroupId);
+            int groupID = 0;
+            foreach (int g in allGroupsForUser)
+            {
+                foreach (int g2 in allGroupsForProject)
+                {
+                    if (g == g2)
+                        groupID = g;
+                }
+            }
+            #endregion
+
+            // Populate the viewModel and return a view using it
+            UserViewModel viewModel = new UserViewModel()
+            {
+                selectedUser = db.GetUsers().Find(u => u.UserId == userID),
+                selectedGroup = db.GetGroups().Find(g => g.GroupId == groupID),
+                allGroups = db.GetGroups(),
+                timeEntries = db.GetTimeEntries().FindAll(te => te.UserId == userID && te.GroupId == groupID)
+            };
+            return View(viewModel);
         }
 
         public IActionResult About()

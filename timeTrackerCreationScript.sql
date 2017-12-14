@@ -24,9 +24,9 @@ CREATE TABLE User(
 
 
 CREATE TABLE `Group`(
-	GroupId			INT		NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
-	GroupName		VARCHAR(50)	NOT NULL,
-	ProjectId		INT		NOT NULL
+	GroupId			INT				NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
+	GroupName		VARCHAR(50)		NOT NULL,
+	ProjectId		INT				NOT NULL
 );
 
 #INSERT INTO `Group`(GroupName, ProjectId) VALUES('Group 1', 1);
@@ -34,35 +34,43 @@ CREATE TABLE `Group`(
 
 CREATE TABLE UserProject(
 	UserProjectId		INT		NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
-	UserId			INT		NOT NULL,
-	GroupId			INT		NOT NULL
+	UserId				INT		NOT NULL,
+	ProjectId			INT		NOT NULL,
+	GroupId				INT		NOT NULL
 );
 
-SELECT * FROM User;
-SELECT * FROM `Group`;
+-- CREATE TABLE UserProject(UserProjectId INT NOT NULL AUTO_INCREMENT PRIMARY KEY, UserId INT NOT NULL, ProjectId INT NOT NULL, GroupId INT NOT NULL );
 
 #INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,2);
 
+-- SELECT * FROM User;
+-- SELECT * FROM `Group`;
+
+-- INSERT INTO UserProject(UserId,ProjectId,GroupId) VALUES (1,1,1);
+
 
 CREATE TABLE TimeEntry(
-	TimeEntryId		BIGINT		NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
-	UserId			INT		NOT NULL,
-	TimeStart		DATETIME	NOT NULL,
-	TimeStop		DATETIME		,
-	Deleted			BIT		NOT NULL,
+	TimeEntryId			BIGINT			NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
+	UserId				INT				NOT NULL,
+	GroupId				INT				NOT NULL,
+	TimeStart			DATETIME		NOT NULL,
+	TimeStop			DATETIME		,
+	Deleted				BIT				NOT NULL,
 	EntryComment		VARCHAR(255)	NOT NULL,
-	CreateDate		DATETIME	NOT NULL
+	CreateDate			DATETIME		NOT NULL
 );
 
+-- CREATE TABLE TimeEntry(  TimeEntryId   BIGINT   NOT NULL AUTO_INCREMENT  PRIMARY KEY,  UserId    INT    NOT NULL,  GroupId    INT    NOT NULL,  TimeStart   DATETIME  NOT NULL,  TimeStop   DATETIME  ,  Deleted    BIT    NOT NULL,  EntryComment  VARCHAR(255) NOT NULL );  
+
+-- INSERT INTO TimeEntry (UserId, GroupId, TimeStart, TimeStop, Deleted, EntryComment, CreateDate) VALUES (1, 1, DATE_ADD(NOW(), INTERVAL -1 HOUR), NOW(), 0, 'One hour of hard labor.', NOW());
 
 
 CREATE TABLE TimeEntryHistory(
-	TimeEntryHistoryId	BIGINT		NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
-	TimeEntryId		BIGINT		NOT NULL,
-	ChangedField		VARCHAR(25)	NOT NULL,
-	OldValue		VARCHAR(255)		,
-	NewValue		VARCHAR(255),
-	CreateDate		DATETIME		NOT NULL
+	TimeEntryHistoryId	BIGINT			NOT NULL	AUTO_INCREMENT		PRIMARY KEY,
+	TimeEntryId			BIGINT			NOT NULL,
+	ChangedField		VARCHAR(25)		NOT NULL,
+	OldValue			VARCHAR(255)		,
+	NewValue			VARCHAR(255)
 );
 
 
@@ -76,6 +84,10 @@ ALTER TABLE `Group`
 
 
 ALTER TABLE UserProject
+	ADD CONSTRAINT FK_ProjectUserProjectId
+	FOREIGN KEY (ProjectId) REFERENCES Project (ProjectId)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE,
 	ADD CONSTRAINT FK_ProjectUserUserId
 	FOREIGN KEY (UserId) REFERENCES `User` (UserId)
 	ON UPDATE CASCADE
@@ -86,13 +98,22 @@ ALTER TABLE UserProject
 	ON DELETE CASCADE
 ;
 
+-- ALTER TABLE UserProject  ADD CONSTRAINT FK_ProjectUserProjectId  FOREIGN KEY (ProjectId) REFERENCES Project (ProjectId)  ON UPDATE CASCADE  ON DELETE CASCADE,  ADD CONSTRAINT FK_ProjectUserUserId  FOREIGN KEY (UserId) REFERENCES `User` (UserId)  ON UPDATE CASCADE  ON DELETE CASCADE,  ADD CONSTRAINT FK_UserProjectGroupId  FOREIGN KEY (GroupId) REFERENCES `Group` (GroupId)  ON UPDATE CASCADE  ON DELETE CASCADE ; 
+
 
 ALTER TABLE TimeEntry
 	ADD CONSTRAINT FK_TEUserId
 	FOREIGN KEY (UserId) REFERENCES User (UserId)
 	ON UPDATE CASCADE
 	ON DELETE CASCADE
+	ADD CONSTRAINT FK_TEGroupId
+	FOREIGN KEY (GroupId) REFERENCES `Group` (GroupId)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
 ;
+
+-- alter table TimeEntry ADD CONSTRAINT FK_TEGroupId  FOREIGN KEY (GroupId) REFERENCES `Group` (GroupId)  ON UPDATE CASCADE  ON DELETE CASCADE;
+
 
 ALTER TABLE TimeEntryHistory
 	ADD CONSTRAINT FK_TEHTimeEntryHistoryId
@@ -101,9 +122,4 @@ ALTER TABLE TimeEntryHistory
 	ON UPDATE CASCADE
 ;
 
-INSERT INTO User(ScreenName,FirstName,LastName,IsActive,UserHash) VALUES('William','William','Parkinson',1,'abc');
-
-SELECT
-	*
-FROM
-	User
+-- INSERT INTO User(ScreenName,FirstName,LastName,IsActive,UserHash) VALUES('nprezive','Noah','Preszler',1,'123');

@@ -1,27 +1,69 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@using Newtonsoft.Json
 
-<p>Use this area to provide additional information.</p>
+@model CS3750P04.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "User";
+    var user = Model.selectedUser;
+    var group = Model.selectedGroup;
+    var allGroups = Model.allGroups;
+    var timeEntries = Model.timeEntries;
+}
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/treemap.js"></script>
 
+<h2>@user.FirstName @user.LastName (@group.GroupName)</h2>
+
+<table>
+        <tr>
+            <th>Date</th>
+            <th>In</th>
+            <th>Out</th>
+            <th>Duration</th>
+            <th>Comment</th>
+        </tr>
+        @foreach (var te in timeEntries)
+        {
+            <tr>
+                <td>@te.TimeStart.ToString("MM/dd/yy")</td>
+                <td>@te.TimeStart.ToString("HH:mm")</td>
+                <td>@(((DateTime)(te.TimeStop)).ToString("HH:mm"))</td>
+                <td>@(((TimeSpan)(te.TimeStop - te.TimeStart)).ToString(@"hh\:mm"))</td>
+                <td>@te.EntryComment</td>
+            </tr>
+        }
+</table>
+
+
+@*Charts & Graphs and Metrics and Stuff*@
+
+<div id="homo">narnanen</div>
 <div id="piechart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 <div id="treemap" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
-<div>
-    <h2>UserName Hours:</h2>
-    <h2>GroupName Average:</h2>
-    <h2>Class Average:</h2>
-</div>
-
 
 <script>
+    var blah = @JsonConvert.SerializeObject(user);
+    alert(blah);
+</script>
+<script>
+    //var allGroups 
+    //document.getElementById("homo").innerHTML("test");
+    //var allGroups2 = new Array();
+    //for (x in allGroups) {
+    //    allGroups2.push({
+    //        name: x.GroupName,
+    //        y: 50
+    //    });
+    
+    //}
+    //alert(allGroups2);
+    
+    //var thing = 'string'
     // Build the chart
     Highcharts.chart('piechart', {
         chart: {
@@ -31,7 +73,7 @@
             type: 'pie'
         },
         title: {
-            text: 'Group {}s progress'
+            text: "Progress of Group: " + "@group.GroupName"
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -70,6 +112,7 @@
                 name: 'Group 6',
                 y: 0.2
             }]
+            //data: allGroups2
         }]
     });
 </script>
