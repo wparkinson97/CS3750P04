@@ -14,12 +14,15 @@ namespace CS3750P04.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index(int projectID, int userID)
+        public IActionResult Index(int? projectID, int? userID)
         {
             //TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
             int? id = (int?)(HttpContext.Session.GetInt32("userId")) ?? -1;
             if (id == -1)
                 return RedirectToAction("Login");
+
+            projectID = projectID ?? 1;
+            userID = userID ?? id;
 
             ViewData["Message"] = "The main screen with user info and metrics.";
             TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
