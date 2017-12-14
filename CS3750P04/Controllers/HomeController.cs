@@ -68,6 +68,18 @@ namespace CS3750P04.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult TrackTime()
+        {
+            int? id = (int?)(HttpContext.Session.GetInt32("userId")) ?? -1;
+            if (id == -1)
+                return RedirectToAction("Login");
+
+            TimeTrackerEntityContext db = HttpContext.RequestServices.GetService(typeof(TimeTrackerEntityContext)) as TimeTrackerEntityContext;
+            var entrys = db.GetTimeEntries().Where(tt => tt.UserId == id && tt.TimeStop == null);
+            
+            return View(entrys.FirstOrDefault());
+        }
 
         public IActionResult User(int projectID, int userID)
         {

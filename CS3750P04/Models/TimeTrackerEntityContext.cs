@@ -130,12 +130,12 @@ namespace CS3750P04.Models
                         {
                             TimeEntryId = reader.GetInt64("TimeEntryId"),
                             TimeStart = reader.GetDateTime("TimeStart"),
-                            TimeStop = reader.GetDateTime("TimeStop"),
                             Deleted = reader.GetBoolean("Deleted"),
                             EntryComment = reader.GetString("EntryComment"),
                             UserId = reader.GetInt32("UserId"),
                             GroupId = reader.GetInt32("GroupId"),
-                            CreateDate = reader.GetDateTime("CreateDate")
+                            CreateDate = reader.GetDateTime("CreateDate"),
+                            TimeStop = reader.IsDBNull(reader.GetOrdinal("TimeStop")) ? (DateTime?)null : reader.GetDateTime("TimeStop") 
                         });
                     }
                 }
