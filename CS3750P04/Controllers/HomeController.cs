@@ -44,6 +44,7 @@ namespace CS3750P04.Controllers
             {
                 selectedUser = db.GetUsers().Find(u => u.UserId == userID),
                 selectedGroup = db.GetGroups().Find(g => g.GroupId == groupID),
+                allGroups = db.GetGroups(),
                 timeEntries = db.GetTimeEntries().FindAll(te => te.UserId == userID && te.GroupId == groupID)
         };
             return View(viewModel);

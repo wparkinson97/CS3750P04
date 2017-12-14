@@ -1,15 +1,20 @@
-﻿
+﻿@using Newtonsoft.Json
+
 @model CS3750P04.ViewModels.UserViewModel
-@*
-This specifies the model type that this view can take.
-*@
 
 @{
     ViewData["Title"] = "User";
     var user = Model.selectedUser;
     var group = Model.selectedGroup;
+    var allGroups = Model.allGroups;
     var timeEntries = Model.timeEntries;
 }
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
 
 <h2>@user.FirstName @user.LastName (@group.GroupName)</h2>
 
@@ -32,3 +37,164 @@ This specifies the model type that this view can take.
             </tr>
         }
 </table>
+
+
+@*Charts & Graphs and Metrics and Stuff*@
+
+<div id="homo">narnanen</div>
+<div id="piechart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+<div id="treemap" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+<script>
+    var blah = @JsonConvert.SerializeObject(user);
+    alert(blah);
+</script>
+<script>
+    //var allGroups 
+    //document.getElementById("homo").innerHTML("test");
+    //var allGroups2 = new Array();
+    //for (x in allGroups) {
+    //    allGroups2.push({
+    //        name: x.GroupName,
+    //        y: 50
+    //    });
+    
+    //}
+    //alert(allGroups2);
+    
+    //var thing = 'string'
+    // Build the chart
+    Highcharts.chart('piechart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: "Progress of Group: " + "@group.GroupName"
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Groups',
+            colorByPoint: true,
+            data: [{
+                name: 'Group 1',
+                y: 56.33
+            }, {
+                name: 'Group 2',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Group 3',
+                y: 10.38
+            }, {
+                name: 'Group 4',
+                y: 4.77
+            }, {
+                name: 'Group 5',
+                y: 0.91
+            }, {
+                name: 'Group 6',
+                y: 0.2
+            }]
+            //data: allGroups2
+        }]
+    });
+</script>
+<script>
+    Highcharts.chart('treemap', {
+        series: [{
+            type: "treemap",
+            layoutAlgorithm: 'stripes',
+            alternateStartingDirection: true,
+            levels: [{
+                level: 1,
+                layoutAlgorithm: 'sliceAndDice',
+                dataLabels: {
+                    enabled: true,
+                    align: 'left',
+                    verticalAlign: 'top',
+                    style: {
+                        fontSize: '15px',
+                        fontWeight: 'bold'
+                    }
+                }
+            }],
+            data: [{
+                id: 'A',
+                name: 'Group 1',
+                color: "#EC2500"
+            }, {
+                id: 'B',
+                name: 'Group 2',
+                color: "#ECE100"
+            }, {
+                id: 'O',
+                name: 'Group 3',
+                color: '#EC9800'
+            }, {
+                id: 'Kiwi',
+                name: 'Group 4',
+                color: '#9EDE00'
+            }, {
+                name: 'Morty',
+                parent: 'A',
+                value: 5
+            }, {
+                name: 'Rick',
+                parent: 'A',
+                value: 3
+            }, {
+                name: 'Jerry',
+                parent: 'A',
+                value: 4
+            }, {
+                name: 'Anne',
+                parent: 'B',
+                value: 4
+            }, {
+                name: 'Rick',
+                parent: 'B',
+                value: 10
+            }, {
+                name: 'Peter',
+                parent: 'B',
+                value: 1
+            }, {
+                name: 'Anne',
+                parent: 'O',
+                value: 1
+            }, {
+                name: 'Rick',
+                parent: 'O',
+                value: 3
+            }, {
+                name: 'Peter',
+                parent: 'O',
+                value: 3
+            }, {
+                name: 'Susanne',
+                parent: 'Kiwi',
+                value: 2
+            }]
+        }],
+        title: {
+            text: 'Class progress'
+        }
+    });
+</script>
